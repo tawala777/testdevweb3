@@ -1,8 +1,27 @@
 import Head from 'next/head'
+import { useState } from 'react'
 import Web3 from 'web3'
-import styles from '../styles/VendingMachine.module.css'
 import 'bulma/css/bulma.css'
-export default function VendingMachine() {
+import styles from '../styles/VendingMachine.module.css'
+
+const VendingMachine = () => {
+    const [error, setError] = useState('')
+    let web3
+    // window.ethereum => metamask
+    const connectWalletHandler = async () => {
+        if (typeof window !== "undefined" && typeof window.ethereum !== "undefined"){
+            try {
+                await window.ethereum.request({method: "eth_requestAccounts"})
+                web3 = new Web3(window.ethereum)
+            } catch (err){
+                setError(err.message)
+            }
+        }
+        else {
+            // alert('metamask undefined')
+            console.log('please install metamask')
+        }
+    }
     return (
         <div className={styles.main}>
             <Head>
@@ -15,7 +34,7 @@ export default function VendingMachine() {
                         <h1>Vending Machine</h1>
                     </div>
                     <div className='navbar-end'>
-                        <button className='button is-primary'>Connect wallet</button>
+                        <button onClick={connectWalletHandler} className='button is-primary'>Connect wallet</button>
                     </div>
                 </div>
             </nav>
@@ -24,6 +43,12 @@ export default function VendingMachine() {
                     <p>placeholder text</p>
                 </div>
             </section>
+            <section>
+                <div className='container has-text-danger'>
+                    <p>{error}</p>
+                </div>
+            </section>
         </div>
     )
 }
+export default VendingMachine 
