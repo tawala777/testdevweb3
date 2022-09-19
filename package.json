@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "compile": "solcjs --abi --include-path node_modules/ --base-path . blockchain/contracts/vendingMachine.sol --output-dir blockchain/build",
     "lint": "next lint"
   },
   "dependencies": {
@@ -13,6 +14,7 @@
     "next": "12.3.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "solc": "^0.8.17",
     "web3": "^1.8.0"
   },
   "devDependencies": {
